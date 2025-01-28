@@ -51,228 +51,219 @@ class WomenCollectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: Text(
-          'Women Collection',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: _buildAppBar(context, theme),
+      body: _buildBody(context, theme),
+    );
+  }
+
+  // AppBar with theme adaptation
+  AppBar _buildAppBar(BuildContext context, ThemeData theme) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: theme.appBarTheme.backgroundColor,
+      title: const Text(
+        'Women Collection',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios, color: theme.iconTheme.color),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: [
+        IconButton(
+          icon:
+              Icon(Icons.shopping_cart_outlined, color: theme.iconTheme.color),
+          onPressed: () {},
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart_outlined, color: Colors.black),
-            onPressed: () {},
-          ),
+      ],
+    );
+  }
+
+  // Body with Search Bar, Categories, and Product Grid
+  Widget _buildBody(BuildContext context, ThemeData theme) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildSearchBar(theme),
+          _buildCategoryButtons(),
+          _buildProductGrid(context, theme),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Search Bar
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search Products',
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 15,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+    );
+  }
 
-            // Category Buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildCategoryButton('All Items', isSelected: true),
-                    _buildCategoryButton('Dresses'),
-                    _buildCategoryButton('Tops'),
-                    _buildCategoryButton('Skirts'),
-                    _buildCategoryButton('Pants'),
-                  ],
-                ),
-              ),
-            ),
-
-            // Product Grid
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final product = products[index];
-                  return _buildProductCard(context, product);
-                },
-              ),
-            ),
-          ],
+  // Search Bar with theme compatibility
+  Widget _buildSearchBar(ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+              color: Colors.grey, // Border color
+              width: 1.0),
+        ),
+        child: const TextField(
+          decoration: InputDecoration(
+            hintText: 'Search Products',
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+            prefixIcon:
+                Icon(Icons.search, color: Color.fromARGB(255, 198, 198, 198)),
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCategoryButton(String category, {bool isSelected = false}) {
+  // Category Buttons (horizontal list)
+  Widget _buildCategoryButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: ['All Items', 'Dresses', 'Tops', 'Skirts', 'Pants']
+              .map((category) => _buildCategoryButton(category))
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  // Category Button Widget
+  Widget _buildCategoryButton(String category) {
     return Container(
       margin: const EdgeInsets.only(right: 12),
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.deepOrange[800] : Colors.white,
-          foregroundColor: isSelected ? Colors.white : Colors.grey[800],
-          elevation: isSelected ? 5 : 2,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.grey[800],
+          elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          shadowColor: isSelected
-              ? Colors.deepOrange.withOpacity(0.3)
-              : Colors.black.withOpacity(0.1),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         ),
-        child: Text(
-          category,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-          ),
-        ),
+        child: Text(category,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
       ),
     );
   }
 
-  Widget _buildProductCard(BuildContext context, Map<String, dynamic> product) {
+  // Product Grid
+  Widget _buildProductGrid(BuildContext context, ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16.0,
+          mainAxisSpacing: 16.0,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return _buildProductCard(context, theme, products[index]);
+        },
+      ),
+    );
+  }
+
+  // Product Card Widget
+  Widget _buildProductCard(
+      BuildContext context, ThemeData theme, Map<String, dynamic> product) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailScreen(product: product),
-          ),
+              builder: (context) => ProductDetailScreen(product: product)),
         );
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.cardColor,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
+                color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      product['image'],
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.favorite_border,
-                          size: 20,
-                          color: Colors.deepOrange[800],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product['name'],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '\$${product['price'].toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.deepOrange[800],
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
+            _buildProductImage(product),
+            _buildProductInfo(product, theme),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Product Image Widget
+  Widget _buildProductImage(Map<String, dynamic> product) {
+    return Expanded(
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+        child: Stack(
+          children: [
+            Image.asset(product['image'],
+                width: double.infinity, fit: BoxFit.cover),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: _buildFavoriteIcon(),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Favorite Icon Widget
+  Widget _buildFavoriteIcon() {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2)),
+          ]),
+      child:
+          const Icon(Icons.favorite_border, size: 20, color: Colors.deepOrange),
+    );
+  }
+
+  // Product Info Widget
+  Widget _buildProductInfo(Map<String, dynamic> product, ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(product['name'],
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: theme.textTheme.bodyLarge!.color)),
+          const SizedBox(height: 4),
+          Text('\$${product['price'].toStringAsFixed(2)}',
+              style: TextStyle(fontSize: 16, color: Colors.deepOrange)),
+        ],
       ),
     );
   }

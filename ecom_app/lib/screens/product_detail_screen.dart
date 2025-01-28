@@ -18,25 +18,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.grey[50],
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios,
+              color: isDarkMode ? Colors.white : Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
           IconButton(
             icon: Icon(
               Icons.favorite,
-              color: isFavorite ? Colors.deepOrange[800] : Colors.grey[400],
+              color: isFavorite
+                  ? Colors.deepOrange[800]
+                  : (isDarkMode ? Colors.grey[400] : Colors.grey[400]),
             ),
             onPressed: () => setState(() => isFavorite = !isFavorite),
           ),
           IconButton(
-            icon: Icon(Icons.shopping_cart_outlined, color: Colors.black),
+            icon: Icon(Icons.shopping_cart_outlined,
+                color: isDarkMode ? Colors.white : Colors.black),
             onPressed: () {},
           ),
         ],
@@ -51,11 +57,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildProductInfo(),
+                  _buildProductInfo(isDarkMode),
                   const SizedBox(height: 24),
-                  _buildSizeSelector(),
+                  _buildSizeSelector(isDarkMode),
                   const SizedBox(height: 24),
-                  _buildDescription(),
+                  _buildDescription(isDarkMode),
                   const SizedBox(height: 24),
                   _buildAddToBagButton(),
                 ],
@@ -88,15 +94,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildProductInfo() {
+  Widget _buildProductInfo(bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.product['name'],
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         const SizedBox(height: 8),
@@ -115,7 +122,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               '\$${(widget.product['price'] * 1.2).toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.grey[500],
+                color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
                 decoration: TextDecoration.lineThrough,
               ),
             ),
@@ -125,15 +132,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildSizeSelector() {
+  Widget _buildSizeSelector(bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Size',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         const SizedBox(height: 12),
@@ -148,10 +156,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.black : Colors.white,
+                    color: isSelected
+                        ? (isDarkMode ? Colors.white : Colors.black)
+                        : (isDarkMode ? Colors.grey[800] : Colors.white),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: isSelected ? Colors.grey[300]! : Colors.grey[300]!,
+                      color: isSelected
+                          ? Colors.deepOrange[800]!
+                          : (isDarkMode
+                              ? Colors.grey[700]!
+                              : Colors.grey[300]!),
                     ),
                     boxShadow: isSelected
                         ? [
@@ -167,7 +181,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Text(
                       size,
                       style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.grey[800],
+                        color: isSelected
+                            ? (isDarkMode ? Colors.black : Colors.white)
+                            : (isDarkMode ? Colors.white : Colors.grey[800]),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -181,15 +197,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildDescription() {
+  Widget _buildDescription(bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Description',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         const SizedBox(height: 12),
@@ -197,7 +214,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           widget.product['description'] ?? 'No description available.',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.grey[600],
+            color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
             height: 1.5,
           ),
         ),
