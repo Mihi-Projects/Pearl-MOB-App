@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'product_detail_screen.dart';
+import 'home_screen.dart';
 
-class WomenCollectionPage extends StatelessWidget {
+class WomenCollectionPage extends StatefulWidget {
   const WomenCollectionPage({Key? key}) : super(key: key);
+
+  @override
+  _WomenCollectionPageState createState() => _WomenCollectionPageState();
+}
+
+class _WomenCollectionPageState extends State<WomenCollectionPage> {
+  int _selectedIndex = 1; // Set the default index to Women Collection
 
   final List<Map<String, dynamic>> products = const [
     {
       'id': '1',
       'name': 'Monogram Silk',
       'price': 2900.00,
-      'image': 'assets/images/Wimg01.png',
+      'image': 'assets/images/dgsgsg.jpg',
       'description': 'A stunning dress perfect for any formal occasion.',
     },
     {
@@ -49,6 +57,25 @@ class WomenCollectionPage extends StatelessWidget {
     },
   ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Handle navigation based on selected index
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else if (index == 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const WomenCollectionPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -57,10 +84,25 @@ class WomenCollectionPage extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: _buildAppBar(context, theme),
       body: _buildBody(context, theme),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: theme.bottomNavigationBarTheme.selectedItemColor,
+        unselectedItemColor: theme.bottomNavigationBarTheme.unselectedItemColor,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_rounded), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag_rounded), label: 'Shop'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_rounded), label: 'Wishlist'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_rounded), label: 'Profile'),
+        ],
+      ),
     );
   }
 
-  // AppBar with theme adaptation
   AppBar _buildAppBar(BuildContext context, ThemeData theme) {
     return AppBar(
       elevation: 0,
@@ -83,7 +125,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Body with Search Bar, Categories, and Product Grid
   Widget _buildBody(BuildContext context, ThemeData theme) {
     return SingleChildScrollView(
       child: Column(
@@ -96,7 +137,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Search Bar with theme compatibility
   Widget _buildSearchBar(ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -122,7 +162,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Category Buttons (horizontal list)
   Widget _buildCategoryButtons() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -137,7 +176,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Category Button Widget
   Widget _buildCategoryButton(String category) {
     return Container(
       margin: const EdgeInsets.only(right: 12),
@@ -157,7 +195,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Product Grid
   Widget _buildProductGrid(BuildContext context, ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -178,7 +215,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Product Card Widget
   Widget _buildProductCard(
       BuildContext context, ThemeData theme, Map<String, dynamic> product) {
     return GestureDetector(
@@ -209,7 +245,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Product Image Widget
   Widget _buildProductImage(Map<String, dynamic> product) {
     return Expanded(
       child: ClipRRect(
@@ -230,7 +265,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Favorite Icon Widget
   Widget _buildFavoriteIcon() {
     return Container(
       padding: const EdgeInsets.all(6),
@@ -248,7 +282,6 @@ class WomenCollectionPage extends StatelessWidget {
     );
   }
 
-  // Product Info Widget
   Widget _buildProductInfo(Map<String, dynamic> product, ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
