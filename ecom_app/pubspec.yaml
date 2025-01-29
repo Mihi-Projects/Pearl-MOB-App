@@ -70,6 +70,22 @@ flutter:
     - assets/images/Mimg01.png
     - assets/images/Wimg02.png
     - assets/images/Mimg02.png
+    - assets/images/skirt.png
+    - assets/images/blue fock.png
+    - assets/images/Blue trouser.png
+    - assets/images/frock.png
+    - assets/images/color shirt.png
+    - assets/images/black hoody.png
+    - assets/images/full kit.png
+    - assets/images/square hoody.png
+    - assets/images/women bag.png
+    - assets/images/blue bag.png
+    - assets/images/blue belt.png
+    - assets/images/brown belt.png
+    - assets/images/pink sent.png
+    - assets/images/blue sent.png
+
+   
     
     
   # An image asset can refer to one or more resolution-specific "variants", see

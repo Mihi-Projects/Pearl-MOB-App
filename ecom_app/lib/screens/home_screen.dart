@@ -43,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Map<String, dynamic>> categories = [
-    {'name': 'New Arrivals', 'image': 'assets/images/NEW01.png'},
     {'name': 'Women', 'image': 'assets/images/WE01.png'},
     {'name': 'Men', 'image': 'assets/images/M01.png'},
     {'name': 'Accessories', 'image': 'assets/images/AC01.png'},
+    {'name': 'New Arrivals', 'image': 'assets/images/NEW01.png'},
   ];
 
   void _navigateToCategoryPage(String categoryName) {
