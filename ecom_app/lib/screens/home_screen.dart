@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        title: Text('Pearl & Prestige',
+        title: Text('Pearl & Prest',
             style: TextStyle(
                 color: Theme.of(context).appBarTheme.titleTextStyle?.color,
                 fontWeight: FontWeight.bold,
